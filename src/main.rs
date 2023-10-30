@@ -5,8 +5,6 @@ use std::env;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Response {
-    jsonrpc: String,
-    id: i32,
     result: TxResult,
 }
 
@@ -14,36 +12,7 @@ struct Response {
 struct TxResult {
     hash: String,
     height: String,
-    index: i32,
-    tx_result: TxDetail,
-    tx: String,
     proof: Proof,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct TxDetail {
-    code: i32,
-    data: String,
-    log: String,
-    info: String,
-    gas_wanted: String,
-    gas_used: String,
-    events: Vec<Event>,
-    codespace: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Event {
-    #[serde(rename = "type")]
-    event_type: String,
-    attributes: Vec<Attribute>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Attribute {
-    key: String,
-    value: String,
-    index: bool,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -89,7 +58,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     println!("Hash: {}", data.result.hash);
     println!("Height: {}", data.result.height);
-    println!("Proof: {}", data.result.proof.data[0]);
+    println!("Proof: {:?}", data.result.proof);
 
     Ok(())
 }
+
